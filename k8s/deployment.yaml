@@ -1,0 +1,32 @@
+# Deployment do Projeto conversao-temperatura
+apiVersion: app-v1
+kind: Deployment
+metadata:
+  name: conversao-temperatura
+spec:
+  selector:
+    matchLabels:
+      app: app-node
+  template:
+    metadata:
+      labels:
+        app: app-node
+    spec:
+      containers:
+        - name: conversao-temperatura
+          image: coimbradevops/conversao-temperatura:v1
+          ports:
+            - containerPort: 8080
+---
+apiVersion: service-v1
+kind: Service
+metadata:
+  name: app-node
+spec:
+  selector:
+    app: app-node
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
+  type: NodePort
